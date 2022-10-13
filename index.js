@@ -27,7 +27,7 @@ app.use("/auth",usersRoute)
 
 
 //sincronizacion automatica con la base de datos y arranque
-db.sequelize.sync().then(()=>{
+db.sequelize.sync({force:false}).then(()=>{
     app.listen(app.get('port'),(error)=>{
         error? console.log("error al inicar servidor: " + error): console.log("Servidor iniciado en el puerto: "+ app.get('port'))
     });  

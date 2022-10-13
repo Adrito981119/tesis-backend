@@ -12,14 +12,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Personal.hasMany(models.Plantilla, {foreignKey: 'PersonalCi',sourceKey: 'ci'})
+      Personal.hasOne(models.Usuario,{foreignKey:'owner',sourceKey:'ci'})
     }
   }
   Personal.init({
     ci: {type:DataTypes.STRING, primaryKey:true, allowNull:false},
-    nombre: {type:DataTypes.STRING, allowNull:false, len:[3,20]},
-    pApellido: {type:DataTypes.STRING, allowNull:true, len:[3,20]},
-    sApellido: {type:DataTypes.STRING, allowNull:true, len:[3,20]},
-    telefono: {type:DataTypes.INTEGER, allowNull:true},
+    fullname: {type:DataTypes.STRING, allowNull:false},
+    telefono: {type:DataTypes.STRING, allowNull:true},
     email: {type:DataTypes.STRING, allowNull:true},
     cargo: {type:DataTypes.STRING, allowNull:false, len:[3,20]},
   }, {

@@ -1,10 +1,11 @@
 const {Personal} = require('../models')
+const {Op} = require('sequelize')
 
 module.exports={
     get: async(req, res)=>{
         try{
         const listPersonal = await Personal.findAll({
-            order:[['nombre','ASC']]
+            order:[['fullname','ASC']]
         })
         res.status(200).json(listPersonal)
         }catch{
@@ -43,12 +44,13 @@ module.exports={
             res.status(500).json({error: 'No se pudo eliminar'})
         }
     },
+
     update: async(req,res)=>{
         const id = req.params.ci
-        const {ci,nombre,pApellido,sApellido,telefono,email,cargo} = req.body
+        const {ci,fullname,telefono,email,cargo,usuario} = req.body
         try{
         await Personal.update({
-        ci,nombre,pApellido,sApellido,telefono,email,cargo
+        ci,fullname,telefono,email,cargo,usuario
         },
         {
             where: {ci: id}
@@ -57,5 +59,15 @@ module.exports={
     }catch{
         res.status(500).json({error: 'Error'})
     }
+    },
+
+
+    getUsers: async(req,res)=>{
+        const users = await Personal.findAll(
+            {
+                where:{usuario: {[Op.not]: null}}
+            }
+        )
+        res.json(users)
     }
 }

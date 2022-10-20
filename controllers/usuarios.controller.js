@@ -25,12 +25,12 @@ module.exports={
         const user = await Usuario.findOne({where:{username: username}})
 
         if(!user){
-            res.status(500).json({error:'Este usuario no existe'})
+            res.json({error:'Este usuario no existe'})
         };
         try{
             bcrypt.compare(password,user.password).then((match)=>{
                 if(!match){
-                    res.status(500).json({error:'Contraseña incorrecta'})
+                    res.json({error:'Contraseña incorrecta'})
                 }else{                  
                 const token = sign({username:user.username}, 'string');
                 res.status(200).json(token)
@@ -55,6 +55,7 @@ module.exports={
 
     deleteUser: async(req, res)=>{
         const id = req.params.id
+        
         try{
         await Usuario.destroy({
             where:{id: id}
@@ -63,6 +64,60 @@ module.exports={
     }catch{
         res.status(500)
     }
-}
+},
+
+changePassword: async(req,res)=>{
+    const id = req.params.id
+    const {oPass,nPass} = req.body
+    try{
+       const user = await Usuario.findOne({
+           where:{id: id}
+       })
+
+       await bcrypt.compare(oPass,user.password).then((match)=>{
+        if(!match){
+            res.json({error: 'La contraseña anterior no es correcta'})
+        }
+       })
+       const u = {
+           id:user.id,
+           username: user.username,
+           password: await bcrypt.hash(nPass,10||process.env.SEED),
+           owner: user.owner
+       }
+       await Usuario.update(u,
+           {
+               where: {id: id}
+           }
+           )
+        res.status(200).json('Se ha cambiado la contraseña')
+    }catch{
+       res.status(500)
+    }
+   },
+
+   resetPassword: async(req,res)=>{
+    const id = req.params.id
+    try{
+       const user = await Usuario.findOne({
+           where:{id: id}
+       })
+       const u = {
+           id:user.id,
+           username: user.username,
+           password: await bcrypt.hash(user.username,10||process.env.SEED),
+           owner: user.owner
+       }
+       console.log(u)
+       await Usuario.update(u,
+           {
+               where: {id: id}
+           }
+           )
+        res.status(200).json('La contraseña se ha reiniciado con exito')
+    }catch{
+       res.status(500)
+    }
+   }
 
 }

@@ -7,5 +7,7 @@ router.post('/',controller.post)
 router.post('/login',controller.login)
 router.get('/verify',validateToken,controller.get)
 router.get('/users',validateToken,controller.getUsers)
+router.put('/users/resetpassword/:id',controller.resetPassword)
+router.put('/users/changepassword/:id',controller.changePassword)
 router.delete('/users/:id',controller.deleteUser)
 module.exports = router

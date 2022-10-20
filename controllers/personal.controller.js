@@ -47,7 +47,10 @@ module.exports={
 
     update: async(req,res)=>{
         const id = req.params.ci
+        console.log(req.body)
+        console.log(id)
         const {ci,fullname,telefono,email,cargo,usuario} = req.body
+        console.log(usuario)
         try{
         await Personal.update({
         ci,fullname,telefono,email,cargo,usuario
@@ -56,9 +59,9 @@ module.exports={
             where: {ci: id}
         })
         res.status(200).json('Editado con exito')
-    }catch{
-        res.status(500).json({error: 'Error'})
-    }
+        }catch{
+            res.status(500).json({error: 'Error'})
+        }
     },
 
 

@@ -52,7 +52,6 @@ module.exports={
     },
     update: async(req,res)=>{
         const id = req.params.id
-        const ind = req.body
         try{
         await Individuos.update({
             id: req.body.id,

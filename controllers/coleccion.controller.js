@@ -30,7 +30,7 @@ module.exports={
         await Coleccion.create(col)
         res.status(200).json('Añadido con exito')
         } catch{
-            res.status(500).json({error: 'Ya existe una coleccion con ese id'})
+            res.json({error: 'Ya existe una coleccion con ese id'})
         }
     },
     delete: async(req,res)=>{

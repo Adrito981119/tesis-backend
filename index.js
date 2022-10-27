@@ -20,7 +20,7 @@ const usersRoute = require("./routes/usuario.routes")
 
 //establecer rutas
 app.use("/api/coleccion",coleccionRoute) 
-app.use("/api/individuos",coleccionRoute) 
+app.use("/api/individuos",individuoRoute) 
 app.use("/api/personal",personalRoute)
 app.use("/api/equipos",equipoRoute)
 app.use("/api/tareas",tareaRoute)

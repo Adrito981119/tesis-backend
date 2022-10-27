@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     nombreVulgar: {type:DataTypes.STRING},
     nombreCientifico: {type:DataTypes.STRING},
     nombreFamilia: {type:DataTypes.STRING},
-    posicion: {type:DataTypes.STRING},
+    latitud: {type:DataTypes.STRING},
+    longitud: {type:DataTypes.STRING},
     diametro: {type:DataTypes.STRING},
     altura: {type:DataTypes.STRING},
   }, {

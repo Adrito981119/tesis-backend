@@ -6,14 +6,14 @@ module.exports={
         const listIndividuos = await Individuos.findAll()
         res.status(200).json(listIndividuos)
         }catch{
-        res.status(500).json({error: 'No existen individuos'}) 
+        res.json({error: 'No existen individuos'}) 
         }
     },
 
     getOne: async(req,res)=>{
         const id = req.params.id
         try{
-        const ind = await Individuos.findOne({where: {id: id}})
+        const ind = await Individuos.findOne({where: {id}})
         res.status(200).json(ind)
         }catch{
             res.status(500).json({error: 'Este individuo no existe'})
@@ -43,11 +43,11 @@ module.exports={
         const id = req.params.id
         try{
         await Individuos.destroy({
-            where: {id: id}
+            where: {id}
         })
         res.status(200).json({error: 'Eliminado con exito'})
         }catch{
-            res.status(500).json({error: 'No se pudo eliminar'})
+            res.json({error: 'No se pudo eliminar'})
         }
     },
     update: async(req,res)=>{

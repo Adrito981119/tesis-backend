@@ -52,7 +52,7 @@ module.exports={
     delete: async(req,res)=>{
         const id = req.params.id
         await Tarea.destroy({
-            where: {id: id}
+            where: {id}
         })
         res.json('Borrado con exito')
     },

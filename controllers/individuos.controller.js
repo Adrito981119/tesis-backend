@@ -1,4 +1,5 @@
 const {Individuos} = require('../models')
+const {RegistroIndividuos} = require('../models')
 
 module.exports={
     get: async(req, res)=>{
@@ -30,6 +31,15 @@ module.exports={
         }
     },
 
+    getRecord: async(req,res)=>{
+        try{
+            const prevStates = await RegistroIndividuos.findAll()
+            res.status(200).json(prevStates)
+        }catch{
+            res.json({error:'Error de registro'})
+        }
+    },
+
     post: async(req,res)=>{
         const ind = req.body
         try{
@@ -39,6 +49,19 @@ module.exports={
             res.status(500).json({error: 'Ya existe este elemento'})
         }
     },
+
+    record: async(req,res)=>{
+        const prevState = req.body
+        try{
+         await RegistroIndividuos.create(prevState)
+         res.status(200).json('Registrado')
+        }
+        catch{
+         res.status(500).json({error: 'Ha ocurrido un error en el registro'})
+        }
+     },
+
+     
     delete: async(req,res)=>{
         const id = req.params.id
         try{
@@ -70,5 +93,5 @@ module.exports={
     }catch{
         res.status(500).json({error: 'No se pudo editar'})
     }
-    }
+    },
 }

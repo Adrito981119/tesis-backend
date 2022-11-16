@@ -1,4 +1,4 @@
-const {Personal} = require('../models')
+const {Personal, RegistroPersonal} = require('../models')
 const {Op} = require('sequelize')
 
 module.exports={
@@ -23,6 +23,17 @@ module.exports={
         }
     },
 
+    getRecord: async(req, res)=>{
+        try{
+        const record = await RegistroPersonal.findAll({
+            order:[['fullname','ASC']]
+        })
+        res.status(200).json(record)
+        }catch{
+            res.status(500)
+        }
+    },
+
     post: async(req,res)=>{
         const person = req.body
         try{
@@ -30,6 +41,17 @@ module.exports={
         res.status(200).json('Añadido correctamente')
         }catch{
         res.status(500).json({error: 'La persona ya existe'})
+        }
+        
+    },
+
+    record: async(req,res)=>{
+        const person = req.body
+        try{
+        await RegistroPersonal.create(person)
+        res.status(200).json('Cread0')
+        }catch{
+        res.status(500)
         }
         
     },

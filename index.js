@@ -3,9 +3,10 @@ const express = require('express');
 const app = express()
 const db = require('./models')
 const cors = require('cors')
+require('dotenv').config()
 
 //settings port and CORS, handling JSON errors
-app.set('port',process.env.PORT || 3001);
+app.set('port',process.env.PORT);
 app.use(express.json())
 app.use(cors())
 

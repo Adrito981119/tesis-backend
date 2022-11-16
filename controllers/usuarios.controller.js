@@ -1,6 +1,7 @@
 const {Usuario} = require('../models')
 const bcrypt = require('bcrypt')
 const {sign} = require('jsonwebtoken')
+const {Op} = require('sequelize')
 
 module.exports={
     //añade un usuario
@@ -46,7 +47,9 @@ module.exports={
 
     getUsers: async(req,res)=>{
         try{
-            const users = await Usuario.findAll()
+            const users = await Usuario.findAll({
+                where:{username:{[Op.not]: 'admin'}}
+            })
             res.status(200).json(users)
         }catch{
             res.status(500).json('Lista Vacia')

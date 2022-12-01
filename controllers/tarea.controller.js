@@ -1,89 +1,79 @@
-const {Tarea} = require('../models')
+const {Tarea,Mantenimiento} = require('../models')
+
 
 module.exports={
     get: async(req, res)=>{
-        const listTareas = await Tarea.findAll()
+        const listTareas = await Tarea.findAll(
+            {
+                include: Mantenimiento
+            }
+        )
         res.json(listTareas)
     },
 
-
     getPendientes: async(req,res)=>{
         try{
-            const listTareas =await Tarea.findAll(
+            const listPendientes = await Tarea.findAll(
                 {
-                    where:{
-                        cumplida: false
-                    }
+                    include: Mantenimiento,
+                    where: {cumplida: false}
                 }
             )
-            res.status(200).json(listTareas)
+            res.json(listPendientes)
         }catch{
-            res.status(500).json({error: 'No hay tareas pendientes'})
+            res.status(500)
         }
     },
 
     getCumplidas: async(req,res)=>{
         try{
-            const listTareas = await Tarea.findAll(
+            const listCumplidas = await Tarea.findAll(
                 {
-                    where:{
-                        cumplida: true
-                    }
+                    include: Mantenimiento,
+                    where: {cumplida: true}
                 }
             )
-            res.status(200).json(listTareas)
+            res.json(listCumplidas)
         }catch{
             res.status(500)
         }
     },
 
-    getOne: async(req,res)=>{
-        const id = req.params.ci
-        const tarea = await Tarea.findOne({where: {id: id}})
-        res.json(person)
-    },
 
     post: async(req,res)=>{
         const tarea = req.body
-        await Tarea.create(tarea)
-        res.json('Creado con exito')
+        try{
+            await Tarea.create(tarea,
+                {include: Mantenimiento}
+                )
+            res.status(200)
+        }catch{
+            res.status(500)
+        }
     },
 
     delete: async(req,res)=>{
         const id = req.params.id
-        await Tarea.destroy({
-            where: {id}
-        })
-        res.json('Borrado con exito')
-    },
-    update: async(req,res)=>{
-        const id = req.params.id
-        const {fecha,hora,equipo,descripcion} = req.body
-        await Individuos.update({
-        fecha,hora,equipo,descripcion
-        },
-        {
-            where: {id: id}
-        })
-        res.json('Editado con exito')
-    },
-
-    //operaciones relacionadas al registro
-    cumplir: async(req,res)=>{
-        const id = req.params.id
-        const {cumplida, fechacumplida} = req.body
         try{
-            await Tarea.update({
-                cumplida, fechacumplida
-            },
-            {
-                where:{id:id}
-            }
-            )
-            res.status(200).json('Tarea anotada como cumplida')
+            await Tarea.destroy({
+                where: {id}
+            })
+            res.json('Borrado con exito')
         }catch{
             res.status(500)
         }
-    }
 
+    },
+
+    cumplir: async(req,res)=>{
+    const idTarea = req.params.idTarea
+    const data = req.body
+        console.log(data)
+        try{
+            await Tarea.update(data,{where:{id: idTarea}})
+            res.json('Cumplida')
+        }catch{
+            res.json('No se pudo cumplir')
+        }
+    },
 }

@@ -7,13 +7,21 @@ module.exports={
     //añade un usuario
     post: async(req,res)=>{
 
-        const {username, password,owner} = req.body
+        const {username, password,role,owner} = req.body
         try{   
-            await Usuario.create({
-                username: username,
-                password: await bcrypt.hash(password,10||process.env.SEED),
-                owner: owner})
-                res.status(200).json('Usuario Creado')      
+          const user = await Usuario.findOne(
+                {where: {PersonalCi: owner}}
+            )
+            if(!user){
+                await Usuario.create({
+                    username: username,
+                    password: await bcrypt.hash(password,10||process.env.SEED),
+                    role: role,
+                    PersonalCi: owner})
+                    res.status(200).json('Usuario Creado')  
+            }else{
+                res.json({error: 'Esta persona ya tiene una cuenta asignada'})
+            }
     }
     catch{
         res.status(500)
@@ -33,15 +41,25 @@ module.exports={
                 if(!match){
                     res.json({error:'Contraseña incorrecta'})
                 }else{                  
-                const token = sign({username:user.username}, 'string');
-                res.status(200).json(token)
+                const token = sign({username:user.username}, 'string',{expiresIn:'8h'});
+                res.status(200).json({user: user.username, token: token,rol: user.role})
                 }
                 });
         }catch{}
     },
     //determina si el token no es falso
     get: async(req,res)=>{
-    res.status(200).json(req.user)
+        try{
+            const user = await Usuario.findOne(
+                {
+                    where:{username: req.header('user')}
+                }
+            )
+            res.status(200).json(user.role)
+        }catch{
+            res.status(500)
+        }
+
     },
 
 
@@ -61,7 +79,7 @@ module.exports={
         
         try{
         await Usuario.destroy({
-            where:{id: id}
+            where:{username: id}
         })
         res.status(200).json("Eliminado")
     }catch{
@@ -69,12 +87,12 @@ module.exports={
     }
 },
 
-changePassword: async(req,res)=>{
+ changePassword: async(req,res)=>{
     const id = req.params.id
     const {oPass,nPass} = req.body
     try{
        const user = await Usuario.findOne({
-           where:{id: id}
+           where:{username: id}
        })
 
        await bcrypt.compare(oPass,user.password).then((match)=>{
@@ -83,14 +101,13 @@ changePassword: async(req,res)=>{
         }
        })
        const u = {
-           id:user.id,
            username: user.username,
            password: await bcrypt.hash(nPass,10||process.env.SEED),
-           owner: user.owner
+           PersonalCi: user.PersonalCi
        }
        await Usuario.update(u,
            {
-               where: {id: id}
+               where: {username: id}
            }
            )
         res.status(200).json('Se ha cambiado la contraseña')
@@ -103,7 +120,7 @@ changePassword: async(req,res)=>{
     const id = req.params.id
     try{
        const user = await Usuario.findOne({
-           where:{id: id}
+           where:{username: id}
        })
        const u = {
            id:user.id,
@@ -114,7 +131,7 @@ changePassword: async(req,res)=>{
        console.log(u)
        await Usuario.update(u,
            {
-               where: {id: id}
+               where: {username: id}
            }
            )
         res.status(200).json('La contraseña se ha reiniciado con exito')

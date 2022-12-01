@@ -10,16 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Tarea.hasMany(models.Performance,{foreignKey:'TareaId',sourceKey:'id'})
+        Tarea.hasMany(models.Mantenimiento)
+        Tarea.belongsToMany(models.Individuos,{through: 'Mantenimiento'})
         }
   }
   Tarea.init({
-    id:{type: DataTypes.INTEGER, primaryKey: true, autoIncrement:true},
-    fechainicio: {type:DataTypes.DATE},
-    fechafin: {type: DataTypes.DATE},
+    id:{type: DataTypes.STRING, primaryKey: true},
+    fechainicio: {type:DataTypes.DATE,allowNull:false},
+    fechafin: {type: DataTypes.DATE,allowNull:false},
     descripcion:{type:DataTypes.TEXT,allowNull:false},
-    cumplida: {type: DataTypes.BOOLEAN, allowNull: true},
-    fechacumplida: {type:DataTypes.DATE,allowNull:true},
+    cumplida:{type:DataTypes.BOOLEAN,allowNull:false},
+    fechacumplida:{type:DataTypes.DATE,allowNull:true},
   }, {
     sequelize,
     modelName: 'Tarea',

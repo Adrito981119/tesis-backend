@@ -49,7 +49,7 @@ module.exports={
         const person = req.body
         try{
         await RegistroPersonal.create(person)
-        res.status(200).json('Cread0')
+        res.status(200).json('Creado')
         }catch{
         res.status(500)
         }
@@ -69,10 +69,7 @@ module.exports={
 
     update: async(req,res)=>{
         const id = req.params.ci
-        console.log(req.body)
-        console.log(id)
         const {ci,fullname,telefono,email,cargo,usuario} = req.body
-        console.log(usuario)
         try{
         await Personal.update({
         ci,fullname,telefono,email,cargo,usuario

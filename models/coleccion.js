@@ -19,9 +19,6 @@ module.exports = (sequelize, DataTypes) => {
       nombreVulgar: {type:DataTypes.STRING, allowNull: false},
       nombreCientifico: {type:DataTypes.STRING, allowNull: false},
       nombreFamilia: {type:DataTypes.STRING,allowNull: false},
-      posicion: {type:DataTypes.STRING, allowNull:true},
-      cant:{type:DataTypes.INTEGER,allowNull: false},
-
   }, {
     sequelize,
     modelName: 'Coleccion',

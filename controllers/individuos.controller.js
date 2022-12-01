@@ -40,6 +40,20 @@ module.exports={
         }
     },
 
+    getOneRecord: async(req,res)=>{
+        const id = req.params.id
+        try{
+            const prevStates = await RegistroIndividuos.findAll(
+                {
+                    where: {id}
+                }
+            )
+            res.status(200).json(prevStates)
+        }catch{
+            res.json({error:'Error de registro'})
+        }
+    },
+
     post: async(req,res)=>{
         const ind = req.body
         try{

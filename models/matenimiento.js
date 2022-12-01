@@ -3,22 +3,21 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Performance extends Model {
+  class Mantenimiento extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-     Performance.belongsTo(models.Personal,{foreignKey:'PersonalCi'})
-     Performance.belongsTo(models.Tarea,{foreignKey:'TareaId'})
+    Mantenimiento.belongsTo(models.Individuos)
+    Mantenimiento.belongsTo(models.Tarea)
     }
   }
-  Performance.init({
-    fechacumplimento:{type:DataTypes.DATE, primaryKey: true}
+  Mantenimiento.init({
   }, {
     sequelize,
-    modelName: 'Performance',
+    modelName: 'Mantenimiento',
   });
-  return Performance;
+  return Mantenimiento;
 };

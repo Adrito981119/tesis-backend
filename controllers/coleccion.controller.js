@@ -1,4 +1,4 @@
-const {Coleccion} = require('../models')
+const {Coleccion,RegistroColeccion} = require('../models')
 
 module.exports={
     get: async(req, res)=>{
@@ -23,6 +23,26 @@ module.exports={
             res.status(500).json({error: 'La coleccion no existe'})
         }
     },
+
+    getRecord: async(req,res)=>{
+        try{
+            const prevStates = await RegistroColeccion.findAll()
+            res.status(200).json(prevStates)
+        }catch{
+            res.status(500)
+        }
+    },
+
+    record: async(req,res)=>{
+        const prevState = req.body
+        try{
+         await RegistroColeccion.create(prevState)
+         res.status(200).json('Registrado')
+        }
+        catch{
+         res.status(500).json({error: 'Ha ocurrido un error en el registro'})
+        }
+     },
 
     post: async(req,res)=>{
         const col = req.body

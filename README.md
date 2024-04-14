@@ -1,3 +1,5 @@
+This project was developed in 2021 and is **DEPRICATED**. Feel happy to see how was the time were people use Express without Typescript. I personally use it to see how I start and how experience has improve my work😂. PD: **Use Typescript**
+
 Hola, los proyectos de tesis pueden ser estresantes lo se en carne propia😁, aunque poco espero que esta pequeña contribucion les sea de ayuda.
 
 Estuve usando en su momento Express aunque si estan usando Nest algunas partes les puedes seguir siendo utiles, la estructura sigue el patron MVC

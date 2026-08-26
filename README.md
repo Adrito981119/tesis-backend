@@ -1,10 +1,10 @@
 This project was developed in 2021 and is **DEPRECATED**. Feel free to look around and see what it was like back when people used Express without TypeScript. I personally keep it around to see how I started and how experience has improved my work 😂. PS: **Use TypeScript**
 
-> 📚 **A modernized version of this project is available.** Rebuilt with current frameworks so it can serve as up-to-date code examples for students starting their thesis projects: https://github.com/Adrito981119/tesis-backend-v2
+> 📚 **A modernized version of this project is available.** Rebuilt with current frameworks so it can serve as up-to-date code examples for students starting their thesis projects: https://github.com/Adrito981119/tesis-project-monorepo
 
 Hola, los proyectos de tesis pueden ser estresantes, lo sé en carne propia 😁; aunque sea poco, espero que esta pequeña contribución les sea de ayuda.
 
-> 📚 **Existe una versión modernizada de este proyecto.** Reconstruida con frameworks actuales para que sirva como ejemplos de código al día a los estudiantes que están empezando su tesis: https://github.com/Adrito981119/tesis-backend-v2
+> 📚 **Existe una versión modernizada de este proyecto.** Reconstruida con frameworks actuales para que sirva como ejemplos de código al día a los estudiantes que están empezando su tesis: https://github.com/Adrito981119/tesis-project-monorepo
 
 Estuve usando en su momento Express, aunque si están usando Nest algunas partes les pueden seguir siendo útiles; la estructura sigue el patrón MVC.
 
